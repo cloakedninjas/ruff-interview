@@ -1,7 +1,7 @@
 module Hrj.Entity {
     export class QuestionManager extends Phaser.Group {
-        static MAX_WRONG: number = 3;
-        static MAX_CORRECT: number = 10;
+        static MAX_WRONG: number = 2; // TODO change
+        static MAX_CORRECT: number = 2;  // TODO change
         static RESULT_FAIL: boolean = false;
         static RESULT_SUCCESS: boolean = true;
         private static B_RESULT_CORRECT: number = 1;
@@ -55,7 +55,7 @@ module Hrj.Entity {
             };
             let bubbleTextBox = {
                 w: width - padding,
-                h: width - padding - 30
+                h: width - padding
             };
 
             this.interviewerText = new Phaser.Text(game, this.intBubble.x, this.intBubble.y, '', speechTextStyle);
@@ -254,20 +254,6 @@ module Hrj.Entity {
                 // show response
                 this.giveResponse(buttonResult);
             });
-
-            if (buttonResult === QuestionManager.B_RESULT_CORRECT) {
-                this.correctCount++;
-
-                if (this.correctCount === QuestionManager.MAX_CORRECT) {
-                    this.gameOver.dispatch(QuestionManager.RESULT_SUCCESS);
-                }
-            } else {
-                this.wrongCount++;
-
-                if (this.wrongCount === QuestionManager.MAX_WRONG) {
-                    this.gameOver.dispatch(QuestionManager.RESULT_FAIL);
-                }
-            }
         }
 
         giveResponse(result: number) {
@@ -294,8 +280,7 @@ module Hrj.Entity {
         interviewerResponse(result: number) {
             this.hideSpeech(true);
 
-            let response;
-            let i;
+            let response, i, endCondition;
 
             if (result === QuestionManager.B_RESULT_CORRECT) {
                 i = Math.floor(Phaser.Math.random(0, this.data.positive_responses.length));
@@ -307,8 +292,36 @@ module Hrj.Entity {
 
             this.personSpeak(false, response);
 
+            // pick next action based on result
+
+            if (result === QuestionManager.B_RESULT_CORRECT) {
+                this.correctCount++;
+                endCondition = QuestionManager.RESULT_SUCCESS;
+            } else {
+                this.wrongCount++;
+                endCondition = QuestionManager.RESULT_FAIL;
+            }
+
+            if (this.correctCount === QuestionManager.MAX_CORRECT || this.wrongCount === QuestionManager.MAX_WRONG) {
+                this.speakerDone.addOnce(() => {
+                    this.game.time.events.add(2000, this.endInterview, this, endCondition);
+                });
+            } else {
+                this.speakerDone.addOnce(() => {
+                    this.game.time.events.add(2000, this.askQuestion, this);
+                });
+            }
+        }
+
+        endInterview(result: boolean) {
+            const endMsg = result === QuestionManager.RESULT_SUCCESS ?
+                'Ok, that about covers all my questions. I think you\'ll make a great part of the team' :
+                'I\'m going to have to stop you there. I\'m not sure this is right the place for you';
+
+            this.personSpeak(false, endMsg);
+
             this.speakerDone.addOnce(() => {
-                this.game.time.events.add(2000, this.askQuestion, this);
+                this.gameOver.dispatch(result);
             });
         }
     }
