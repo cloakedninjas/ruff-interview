@@ -43,7 +43,7 @@ module Hrj.State {
         }
 
         beginInterview() {
-            this.dog.idleWobble();
+            this.dog.activate();
             this.questionManager.askQuestion();
         }
     }

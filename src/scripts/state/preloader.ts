@@ -14,11 +14,12 @@ module Hrj.State {
 
             this.load.image('interviewer', 'assets/images/interviewer.png');
             this.load.image('speech-bubble', 'assets/images/speech-bubble.png');
+            this.load.image('thought-bubble', 'assets/images/bubble.png');
         }
 
         create() {
             this.loadingBar.setFillPercent(100);
-            var tween = this.game.add.tween(this.loadingBar).to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
+            const tween = this.game.add.tween(this.loadingBar).to({alpha: 0}, 1000, Phaser.Easing.Linear.None, true);
             tween.onComplete.add(this.startGame, this);
         }
 

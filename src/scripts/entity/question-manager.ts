@@ -3,6 +3,7 @@ module Hrj.Entity {
         data: any;
         bubble: Phaser.Sprite;
         questionText: Phaser.Text;
+        buttons: Phaser.Button[];
 
         constructor(game) {
             super(game, null, 'qm', true);
@@ -25,6 +26,16 @@ module Hrj.Entity {
             });
 
             this.add(this.questionText);
+
+            this.buttons = [];
+
+            for (let i = 0; i < 3; i++) {
+                let x = (i * 230) + 20;
+                let button = new Phaser.Button(game, x, 10, 'thought-bubble');
+                button.visible = false;
+                this.buttons.push(button);
+                this.add(button);
+            }
         }
 
         askQuestion() {
@@ -46,11 +57,18 @@ module Hrj.Entity {
             });
 
             timer.start();
+            timer.onComplete.add(this.showButtons, this);
         }
 
         printNextWord(newWord: string) {
             this.questionText.setText(this.questionText.text + ' ' + newWord);
         }
 
+        showButtons() {
+            this.buttons.forEach((button) => {
+
+                button.visible = true;
+            });
+        }
     }
 }

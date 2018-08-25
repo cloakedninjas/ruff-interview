@@ -13,6 +13,8 @@ module Hrj.Entity {
             this.anchor.set(0.5, 1);
 
             this.hand = new Phaser.Sprite(game, -50, -510, 'dog-arm');
+            this.hand.inputEnabled = true;
+            this.hand.events.onInputDown.add(this.retractHand, this);
             this.addChild(this.hand);
 
             this.footLeft = new Phaser.Sprite(game, -50, 0, 'dog-foot');
@@ -34,6 +36,19 @@ module Hrj.Entity {
             window['dog'] = this;
         }
 
+        activate() {
+            this.idleWobble();
+            this.beginReaching();
+        }
+
+        beginReaching() {
+            const delay = Phaser.Math.random(4000, 9000);
+
+            const timer = this.game.time.create();
+            timer.add(delay, this.reachOut, this);
+            timer.start();
+        }
+
         reachOut() {
             this.handTween = this.game.tweens.create(this.hand.position).to({
                 x: -190
@@ -45,6 +60,8 @@ module Hrj.Entity {
             this.game.tweens.create(this.hand.position).to({
                 x: -50
             }, 500, Phaser.Easing.Quadratic.InOut, true);
+
+            this.beginReaching();
         }
 
         idleWobble() {
