@@ -21,8 +21,10 @@ module Hrj.State {
 
             this.questionManager = new Entity.QuestionManager(this.game);
             this.add.existing(this.questionManager);
+            this.questionManager.gameOver.addOnce(this.handleGameOver, this);
 
-            this.playIntro();
+            //this.playIntro();
+            this.beginInterview();
 
             window['state'] = this;
         }
@@ -45,6 +47,14 @@ module Hrj.State {
         beginInterview() {
             this.dog.activate();
             this.questionManager.askQuestion();
+        }
+
+        handleGameOver(success: boolean) {
+            if (success) {
+                console.log('Win');
+            } else {
+                console.log('Loss');
+            }
         }
     }
 }

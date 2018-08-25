@@ -20,5 +20,12 @@
       "correct": "I quickly establish a rapport with my clients.",
       "wrong": "Butts smell great"
     }
+  ],
+
+  "bad_answers": [
+    {
+      "button": "Barking at the mailman",
+      "translation": "Shouting at my colleagues"
+    }
   ]
 }
