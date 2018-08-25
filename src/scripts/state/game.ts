@@ -7,8 +7,11 @@ module Hrj.State {
 
         bowl: Phaser.Sprite;
         bowlFront: Phaser.Sprite;
+        biscuits: Phaser.Sprite[];
 
         create() {
+            this.add.sprite(0, 0, 'bg');
+
             this.dog = new Entity.Dog(this.game);
             this.add.existing(this.dog);
 
@@ -22,6 +25,22 @@ module Hrj.State {
             this.questionManager = new Entity.QuestionManager(this.game);
             this.add.existing(this.questionManager);
             this.questionManager.gameOver.addOnce(this.handleGameOver, this);
+
+            this.bowl = new Phaser.Sprite(this.game, 320, 10, 'bowl-back');
+            this.bowlFront = new Phaser.Sprite(this.game, 320, 10, 'bowl-front');
+            this.table.addChild(this.bowl);
+
+            this.biscuits = [
+                new Phaser.Sprite(this.game, 330, -5, 'biscuit'),
+                new Phaser.Sprite(this.game, 410, 0, 'biscuit'),
+                new Phaser.Sprite(this.game, 360, -6, 'biscuit')
+            ];
+
+            this.biscuits.forEach((biscuit) => {
+               this.table.addChild(biscuit);
+            });
+
+            this.table.addChild(this.bowlFront);
 
             this.playIntro();
             this.beginInterview();
@@ -48,6 +67,10 @@ module Hrj.State {
         beginInterview() {
             this.dog.activate();
             this.questionManager.begin();
+        }
+
+        removeBiscuit() {
+            this.biscuits.pop().destroy();
         }
 
         handleGameOver(success: boolean) {

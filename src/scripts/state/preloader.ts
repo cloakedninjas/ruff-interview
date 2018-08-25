@@ -4,6 +4,8 @@ module Hrj.State {
 
         preload() {
             this.loadingBar = new Entity.PreloadBar(this.game);
+            this.load.image('bg', 'assets/images/background.png');
+
             this.load.image('trench-left', 'assets/images/trench-left.png');
             this.load.image('dog-head', 'assets/images/dog-face.png');
             this.load.image('dog-arm', 'assets/images/dog-arm.png');
@@ -11,6 +13,9 @@ module Hrj.State {
             this.load.image('trench-right', 'assets/images/trench-right.png');
 
             this.load.image('table', 'assets/images/table.png');
+            this.load.image('bowl-back', 'assets/images/bowl-back.png');
+            this.load.image('bowl-front', 'assets/images/bowl-front.png');
+            this.load.image('biscuit', 'assets/images/biscuit.png');
 
             this.load.image('interviewer', 'assets/images/interviewer.png');
             this.load.image('speech-bubble', 'assets/images/speech.png');

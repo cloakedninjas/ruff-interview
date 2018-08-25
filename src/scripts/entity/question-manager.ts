@@ -260,7 +260,7 @@ module Hrj.Entity {
             } else if (result === QuestionManager.B_RESULT_INCORRECT) {
                 trans = this.incorrectAnswer.wrong;
             } else {
-                trans = this.wrongAnswer.wrong;
+                trans = this.wrongAnswer.translation;
             }
             this.dogSpeak(trans);
 
