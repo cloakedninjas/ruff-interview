@@ -25,11 +25,11 @@ module Hrj.Entity {
             this.footRight.anchor.set(0.5, 1);
             this.addChild(this.footRight);
 
-            this.trenchRight = new Phaser.Sprite(game, 67, -107, 'trench-right');
+            this.trenchRight = new Phaser.Sprite(game, 0, 0, 'trench-right');
             this.trenchRight.anchor.set(0.5, 1);
             this.addChild(this.trenchRight);
 
-            this.head = new Phaser.Sprite(game, -10, -688, 'dog-head');
+            this.head = new Phaser.Sprite(game, 0, -688, 'dog-head');
             this.head.anchor.set(0.5, 1);
             this.addChild(this.head);
 

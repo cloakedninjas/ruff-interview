@@ -4,10 +4,16 @@ module Hrj.Entity {
         static MAX_CORRECT: number = 10;
         static RESULT_FAIL: boolean = false;
         static RESULT_SUCCESS: boolean = true;
+        private static B_RESULT_CORRECT: number = 1;
+        private static B_RESULT_INCORRECT: number = 2;
+        private static B_RESULT_WRONG: number = 3;
 
         data: any;
-        bubble: Phaser.Sprite;
-        questionText: Phaser.Text;
+        intBubble: Phaser.Sprite;
+        interviewerText: Phaser.Text;
+
+        dogBubble: Phaser.Sprite;
+        dogText: Phaser.Text;
 
         buttons: TextButton[];
         correctButton: TextButton;
@@ -16,30 +22,51 @@ module Hrj.Entity {
 
         wrongCount: number = 0;
         correctCount: number = 0;
+
+        speakerDone: Phaser.Signal;
         gameOver: Phaser.Signal;
 
 
         constructor(game) {
             super(game, null, 'qm', true);
 
-            //this.data = game.load.json('questions');
-            this.bubble = new Phaser.Sprite(game, 10, 206, 'speech-bubble');
-            this.bubble.visible = false;
-            this.add(this.bubble);
+            this.data = game.cache.getJSON('questions');
+            this.intBubble = new Phaser.Sprite(game, 10, 220, 'speech-bubble');
+            this.intBubble.visible = false;
+            this.add(this.intBubble);
 
-            const padding = 20;
-
-            this.questionText = new Phaser.Text(game, this.bubble.x + padding, this.bubble.y + padding, '', {
+            let width = 280;
+            let padding = 20;
+            let speechTextStyle = {
                 font: '28px Arial',
                 fill: '#000',
-                align: 'left',
-                boundsAlignH: 'left',
-                boundsAlignV: 'top',
+                align: 'center',
+                boundsAlignH: 'center',
+                boundsAlignV: 'middle',
                 wordWrap: true,
-                wordWrapWidth: this.bubble.width - (padding * 2)
-            });
+                wordWrapWidth: width - (padding * 2)
+            };
+            let bubbleTextBox = {
+                w: width - padding,
+                h: width - padding - 30
+            };
 
-            this.add(this.questionText);
+            this.interviewerText = new Phaser.Text(game, this.intBubble.x, this.intBubble.y, '', speechTextStyle);
+            this.interviewerText.setTextBounds(0, 0, bubbleTextBox.w, bubbleTextBox.h);
+            this.add(this.interviewerText);
+
+            // dog speech bubble
+
+            this.dogBubble = new Phaser.Sprite(game, 710, 50, 'speech-bubble');
+            this.dogBubble.scale.x = -1;
+            this.dogBubble.visible = false;
+            this.add(this.dogBubble);
+
+            this.dogText = new Phaser.Text(game, 440, this.dogBubble.y, '', speechTextStyle);
+            this.dogText.setTextBounds(0, 0, bubbleTextBox.w, bubbleTextBox.h);
+            this.add(this.dogText);
+
+            // buttons
 
             this.buttons = [];
 
@@ -50,8 +77,10 @@ module Hrj.Entity {
                 boundsAlignH: 'center',
                 boundsAlignV: 'middle',
                 wordWrap: true,
-                wordWrapWidth: this.bubble.width - (padding * 2)
+                wordWrapWidth: this.intBubble.width - (padding * 2)
             };
+
+            padding = 10;
 
             for (let i = 0; i < 3; i++) {
                 let x = (i * 230) + 20;
@@ -61,17 +90,49 @@ module Hrj.Entity {
                 this.add(button);
 
                 let t = new Phaser.Text(game, 0, 0, '', buttonStyle);
-                t.setTextBounds(0, 0, button.width, button.height);
+                t.setTextBounds(padding, padding, button.width - padding, button.height - padding);
                 button.addText(t);
                 button.events.onInputDown.add(this.handleButtonPush, this);
             }
 
+            this.speakerDone = new Phaser.Signal();
             this.gameOver = new Phaser.Signal();
         }
 
-        askQuestion() {
-            this.bubble.visible = true;
-            const text = 'What would you do if you saw a stick on the road?';
+        begin() {
+            Phaser.ArrayUtils.shuffle(this.data.questions);
+            Phaser.ArrayUtils.shuffle(this.data.bad_answers);
+
+            this.interviewerSpeak('Hello and welcome to BigCorp International');
+
+            this.speakerDone.addOnce(() => {
+                this.game.time.events.add(4000, this.askQuestion, this);
+            });
+        }
+
+        interviewerSpeak(text: string) {
+            this.personSpeak(false, text);
+        }
+
+        dogSpeak(text: string) {
+            this.personSpeak(true, text);
+        }
+
+        personSpeak(dog: boolean, text: string) {
+            let bubble;
+            let textBox;
+
+            if (dog) {
+                bubble = this.dogBubble;
+                textBox = this.dogText;
+            } else {
+                bubble = this.intBubble;
+                textBox = this.interviewerText;
+            }
+
+            bubble.visible = true;
+            textBox.setText('');
+
             const words = text.split(' ');
             const delay = 100;
             let i = 0;
@@ -83,18 +144,46 @@ module Hrj.Entity {
                     return;
                 }
 
-                this.printNextWord(words[i]);
+                this.printNextWord(textBox, words[i]);
                 i++;
             });
 
+            timer.onComplete.add(() => {
+                this.speakerDone.dispatch();
+            });
             timer.start();
-            //timer.onComplete.add(this.showButtons, this, null, 'A', 'B', 'C');
-
-            this.showButtons('A', 'B', 'C');
         }
 
-        printNextWord(newWord: string) {
-            this.questionText.setText(this.questionText.text + ' ' + newWord);
+        printNextWord(textArea: Phaser.Text, newWord: string) {
+            textArea.setText(textArea.text + ' ' + newWord);
+        }
+
+        hideSpeech(dog: boolean) {
+            let bubble;
+            let textBox;
+
+            if (dog) {
+                bubble = this.dogBubble;
+                textBox = this.dogText;
+            } else {
+                bubble = this.intBubble;
+                textBox = this.interviewerText;
+            }
+
+            bubble.visible = false;
+            textBox.setText('');
+        }
+
+        askQuestion() {
+            const q = this.data.questions.shift();
+
+            this.interviewerSpeak('What would you do if you saw a stick on the road?');
+
+            this.speakerDone.addOnce(() => {
+                //this.showButtons('A', 'B', 'Barking at the mailman');
+            });
+
+            this.showButtons('A', 'B', 'Barking at the mailman');
         }
 
         showButtons(correctAnswer: string, incorrectAnswer: string, badAnswer: string) {
@@ -114,7 +203,29 @@ module Hrj.Entity {
         }
 
         handleButtonPush(button: TextButton) {
+            let buttonResult;
+
             if (button === this.correctButton) {
+                buttonResult = QuestionManager.B_RESULT_CORRECT;
+            } else if (button === this.incorrectButton) {
+                buttonResult = QuestionManager.B_RESULT_INCORRECT;
+            } else {
+                buttonResult = QuestionManager.B_RESULT_WRONG;
+            }
+
+            let tween;
+            this.buttons.forEach((button) => {
+                tween = this.game.tweens.create(button).to({
+                    alpha: 0
+                }, 500, Phaser.Easing.Quadratic.In, true);
+            });
+
+            tween.onComplete.add(() => {
+                // show response
+                this.giveResponse(buttonResult);
+            });
+
+            if (buttonResult === QuestionManager.B_RESULT_CORRECT) {
                 this.correctCount++;
 
                 if (this.correctCount === QuestionManager.MAX_CORRECT) {
@@ -127,6 +238,11 @@ module Hrj.Entity {
                     this.gameOver.dispatch(QuestionManager.RESULT_FAIL);
                 }
             }
+        }
+
+        giveResponse(result: number) {
+            this.hideSpeech(false);
+            this.dogSpeak('I like to lick my balls');
         }
     }
 }

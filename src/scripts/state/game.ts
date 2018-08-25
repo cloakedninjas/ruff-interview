@@ -23,7 +23,7 @@ module Hrj.State {
             this.add.existing(this.questionManager);
             this.questionManager.gameOver.addOnce(this.handleGameOver, this);
 
-            //this.playIntro();
+            this.playIntro();
             this.beginInterview();
 
             window['state'] = this;
@@ -40,13 +40,14 @@ module Hrj.State {
                     y: 578
                 }, 2000, Phaser.Easing.Quintic.Out, true, 1000);
 
-                intTween.onComplete.add(this.beginInterview, this);
+                // TODO uncomment
+                // intTween.onComplete.add(this.beginInterview, this);
             }.bind(this));
         }
 
         beginInterview() {
             this.dog.activate();
-            this.questionManager.askQuestion();
+            this.questionManager.begin();
         }
 
         handleGameOver(success: boolean) {

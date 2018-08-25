@@ -13,8 +13,10 @@ module Hrj.State {
             this.load.image('table', 'assets/images/table.png');
 
             this.load.image('interviewer', 'assets/images/interviewer.png');
-            this.load.image('speech-bubble', 'assets/images/speech-bubble.png');
+            this.load.image('speech-bubble', 'assets/images/speech.png');
             this.load.image('thought-bubble', 'assets/images/bubble.png');
+
+            this.load.json('questions', 'assets/questions.json');
         }
 
         create() {
