@@ -30,11 +30,27 @@
       "wrong": "GRGERGERG"
     }
   ],
-
   "bad_answers": [
     {
       "button": "Barking at the mailman",
       "translation": "Shouting at my colleagues"
+    },
+    {
+      "button": "Chasing my tail",
+      "translation": "Going round in circles aimlessly"
     }
+  ],
+  "positive_responses": [
+    "That's good to hear",
+    "Your colleagues will be pleased to hear this",
+    "Ok, good",
+    "Of course, we like to put in some basic questions to test candidates"
+  ],
+
+  "negative_responses": [
+    "Hmmm....",
+    "Surely you must be joking?",
+    "That's disappointing to hear",
+    "Perhaps this isn't the right for you"
   ]
 }

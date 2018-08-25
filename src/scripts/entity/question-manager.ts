@@ -20,6 +20,10 @@ module Hrj.Entity {
         incorrectButton: TextButton;
         badButton: TextButton;
 
+        correctAnswer: any;
+        incorrectAnswer: any;
+        wrongAnswer: any;
+
         wrongCount: number = 0;
         correctCount: number = 0;
 
@@ -176,14 +180,22 @@ module Hrj.Entity {
 
         askQuestion() {
             const q = this.data.questions.shift();
+            let r = Math.floor(Phaser.Math.random(0, this.data.bad_answers.length));
+            let r2 = Math.floor(Phaser.Math.random(0, this.data.questions.length));
+            let otherQ = this.data.questions[r2];
 
-            this.interviewerSpeak('What would you do if you saw a stick on the road?');
+            this.correctAnswer = this.data.answers[q.a];
+            this.incorrectAnswer = this.data.answers[otherQ.a];
+            this.wrongAnswer = this.data.bad_answers[r];
+
+            this.interviewerSpeak(q.q);
 
             this.speakerDone.addOnce(() => {
+                // TODO put back
                 //this.showButtons('A', 'B', 'Barking at the mailman');
             });
 
-            this.showButtons('A', 'B', 'Barking at the mailman');
+            this.showButtons(this.correctAnswer.button, this.incorrectAnswer.button, this.wrongAnswer.button);
         }
 
         showButtons(correctAnswer: string, incorrectAnswer: string, badAnswer: string) {
@@ -242,7 +254,38 @@ module Hrj.Entity {
 
         giveResponse(result: number) {
             this.hideSpeech(false);
-            this.dogSpeak('I like to lick my balls');
+
+            let trans;
+
+            if (result === QuestionManager.B_RESULT_CORRECT) {
+                trans = this.correctAnswer.correct;
+            } else if (result === QuestionManager.B_RESULT_INCORRECT) {
+                trans = this.incorrectAnswer.correct;
+            } else {
+                trans = this.wrongAnswer.correct;
+            }
+            this.dogSpeak(trans);
+
+            this.speakerDone.addOnce(() => {
+                this.game.time.events.add(2000, this.interviewerResponse, this, result);
+            });
+        }
+
+        interviewerResponse(result: number) {
+            this.hideSpeech(true);
+
+            let response;
+            let i;
+
+            if (result === QuestionManager.B_RESULT_CORRECT) {
+                i = Math.floor(Phaser.Math.random(0, this.data.positive_responses.length));
+                response = this.data.positive_responses[i];
+            } else {
+                i = Math.floor(Phaser.Math.random(0, this.data.negative_responses.length));
+                response = this.data.negative_responses[i];
+            }
+
+            this.personSpeak(false, response);
         }
     }
 }
