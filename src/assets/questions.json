@@ -9,8 +9,12 @@
       "a": 1
     },
     {
-      "q": "AAA?",
+      "q": "Do you have any experience dealing with clients?",
       "a": 2
+    },
+    {
+      "q": "What do you do in your free time?",
+      "a": 3
     }
   ],
   "answers": [
@@ -25,9 +29,14 @@
       "wrong": "Butts smell great"
     },
     {
-      "button": "BBBB",
-      "correct": "SADASD.",
-      "wrong": "GRGERGERG"
+      "button": "Wag tail",
+      "correct": "I deal with them in a calming manner and work to resolve their issues.",
+      "wrong": "I AM FRIEND!"
+    },
+    {
+      "button": "Sleeping",
+      "correct": "I like to rest and relax so I'm ready for work the next day.",
+      "wrong": "Zzzzzzzzzz...."
     }
   ],
   "bad_answers": [
@@ -38,19 +47,25 @@
     {
       "button": "Chasing my tail",
       "translation": "Going round in circles aimlessly"
+    },
+    {
+      "button": "Digging holes",
+      "translation": "Vandalising office equipment"
     }
   ],
   "positive_responses": [
     "That's good to hear",
     "Your colleagues will be pleased to hear this",
     "Ok, good",
-    "Of course, we like to put in some basic questions to test candidates"
+    "Of course, we like to slip a basic question in to test candidates",
+    "Wonderful",
+    "You'll fit right in!"
   ],
 
   "negative_responses": [
     "Hmmm....",
-    "Surely you must be joking?",
+    "Is this some kind of joke?",
     "That's disappointing to hear",
-    "Perhaps this isn't the right for you"
+    "Perhaps this isn't the right role for you"
   ]
 }

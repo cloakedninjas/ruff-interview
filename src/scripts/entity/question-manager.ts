@@ -191,11 +191,8 @@ module Hrj.Entity {
             this.interviewerSpeak(q.q);
 
             this.speakerDone.addOnce(() => {
-                // TODO put back
-                //this.showButtons('A', 'B', 'Barking at the mailman');
+                this.showButtons(this.correctAnswer.button, this.incorrectAnswer.button, this.wrongAnswer.button);
             });
-
-            this.showButtons(this.correctAnswer.button, this.incorrectAnswer.button, this.wrongAnswer.button);
         }
 
         showButtons(correctAnswer: string, incorrectAnswer: string, badAnswer: string) {
@@ -211,6 +208,7 @@ module Hrj.Entity {
 
             this.buttons.forEach((button) => {
                 button.visible = true;
+                button.alpha = 1;
             });
         }
 
@@ -260,9 +258,9 @@ module Hrj.Entity {
             if (result === QuestionManager.B_RESULT_CORRECT) {
                 trans = this.correctAnswer.correct;
             } else if (result === QuestionManager.B_RESULT_INCORRECT) {
-                trans = this.incorrectAnswer.correct;
+                trans = this.incorrectAnswer.wrong;
             } else {
-                trans = this.wrongAnswer.correct;
+                trans = this.wrongAnswer.wrong;
             }
             this.dogSpeak(trans);
 
@@ -286,6 +284,10 @@ module Hrj.Entity {
             }
 
             this.personSpeak(false, response);
+
+            this.speakerDone.addOnce(() => {
+                this.game.time.events.add(2000, this.askQuestion, this);
+            });
         }
     }
 }
