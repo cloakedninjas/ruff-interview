@@ -15,6 +15,9 @@ module Hrj.Entity {
         dogBubble: Phaser.Sprite;
         dogText: Phaser.Text;
 
+        thoughtBubble1: Phaser.Sprite;
+        thoughtBubble2: Phaser.Sprite;
+
         buttons: TextButton[];
         correctButton: TextButton;
         incorrectButton: TextButton;
@@ -75,7 +78,7 @@ module Hrj.Entity {
             this.buttons = [];
 
             const buttonStyle = {
-                font: '20px Arial',
+                font: '24px Arial',
                 fill: '#000',
                 align: 'center',
                 boundsAlignH: 'center',
@@ -98,6 +101,15 @@ module Hrj.Entity {
                 button.addText(t);
                 button.events.onInputDown.add(this.handleButtonPush, this);
             }
+
+            // thought bubbles
+
+            this.thoughtBubble1 = new Phaser.Sprite(game, 500, 260, 'thought-bubble-1');
+            this.thoughtBubble2 = new Phaser.Sprite(game, 445, 200, 'thought-bubble-2');
+            this.thoughtBubble1.visible = false;
+            this.thoughtBubble2.visible = false;
+            this.addChild(this.thoughtBubble1);
+            this.addChild(this.thoughtBubble2);
 
             this.speakerDone = new Phaser.Signal();
             this.gameOver = new Phaser.Signal();
@@ -206,9 +218,17 @@ module Hrj.Entity {
             this.incorrectButton.text.setText(incorrectAnswer);
             this.badButton.text.setText(badAnswer);
 
-            this.buttons.forEach((button) => {
-                button.visible = true;
-                button.alpha = 1;
+            this.thoughtBubble1.visible = true;
+
+            this.game.time.events.add(600, () => {
+                this.thoughtBubble2.visible = true;
+            });
+
+            this.game.time.events.add(1200, () => {
+                this.buttons.forEach((button) => {
+                    button.visible = true;
+                    button.alpha = 1;
+                });
             });
         }
 
@@ -252,6 +272,8 @@ module Hrj.Entity {
 
         giveResponse(result: number) {
             this.hideSpeech(false);
+            this.thoughtBubble1.visible = false;
+            this.thoughtBubble2.visible = false;
 
             let trans;
 

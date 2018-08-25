@@ -21,6 +21,9 @@ module Hrj.State {
             this.load.image('speech-bubble', 'assets/images/speech.png');
             this.load.image('thought-bubble', 'assets/images/bubble.png');
 
+            this.load.image('thought-bubble-1', 'assets/images/thought-1.png');
+            this.load.image('thought-bubble-2', 'assets/images/thought-2.png');
+
             this.load.json('questions', 'assets/questions.json');
         }
 
