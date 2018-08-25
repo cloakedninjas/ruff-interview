@@ -11,6 +11,10 @@ module Hrj.State {
             this.add.existing(this.questionManager);
 
             this.dog.idleWobble();
+
+            this.add.sprite(0, 889, 'table');
+            this.add.sprite(-120, 578, 'interviewer');
+
         }
     }
 }

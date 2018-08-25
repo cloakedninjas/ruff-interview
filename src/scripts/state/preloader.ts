@@ -9,6 +9,9 @@ module Hrj.State {
             this.load.image('dog-arm', 'assets/images/dog-arm.png');
             this.load.image('dog-foot', 'assets/images/dog-foot.png');
             this.load.image('trench-right', 'assets/images/trench-right.png');
+
+            this.load.image('table', 'assets/images/table.png');
+            this.load.image('interviewer', 'assets/images/interviewer.png');
         }
 
         create() {

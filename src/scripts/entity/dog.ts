@@ -9,7 +9,7 @@ module Hrj.Entity {
         handTween: Phaser.Tween;
 
         constructor(game) {
-            super(game, 500, game.height, 'trench-left');
+            super(game, 540, game.height, 'trench-left');
             this.anchor.set(0.5, 1);
 
             this.hand = new Phaser.Sprite(game, -50, -510, 'dog-arm');
@@ -49,18 +49,20 @@ module Hrj.Entity {
 
         idleWobble() {
             const easing = Phaser.Easing.Linear.None;
-            const angle = 6;
+            const angle = 5;
             let duration = 3000;
 
             let tweenRight = this.game.tweens.create(this).to({
                 angle: angle
             }, duration, easing, true, 0, 0);
 
-            window['foo'] = tweenRight;
+            let footRightRight = this.game.tweens.create(this.footRight).to({
+                angle: -angle
+            }, duration, easing, true, 0, 0);
 
             tweenRight.onComplete.addOnce(function () {
-                console.log('doubling');
                 tweenRight.updateTweenData('duration', duration * 2);
+                footRightRight.updateTweenData('duration', duration * 2);
             });
 
             tweenRight.onComplete.add(function () {
@@ -68,9 +70,16 @@ module Hrj.Entity {
                     angle: -angle
                 }, duration * 2, easing, true, 0, 0);
 
+                this.game.tweens.create(this.footRight).to({
+                    angle: angle
+                }, duration, easing, true, 0, 0);
+
                 tweenLeft.onComplete.add(function () {
                     tweenRight.start();
+                    footRightRight.start();
                 });
+
+
             }.bind(this));
 
         }
