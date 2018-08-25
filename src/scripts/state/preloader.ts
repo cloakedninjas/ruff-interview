@@ -11,7 +11,9 @@ module Hrj.State {
             this.load.image('trench-right', 'assets/images/trench-right.png');
 
             this.load.image('table', 'assets/images/table.png');
+
             this.load.image('interviewer', 'assets/images/interviewer.png');
+            this.load.image('speech-bubble', 'assets/images/speech-bubble.png');
         }
 
         create() {
