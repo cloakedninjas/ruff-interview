@@ -4,7 +4,10 @@ module Hrj.State {
 
         preload() {
             this.loadingBar = new Entity.PreloadBar(this.game);
-            this.load.image('phaser-logo', 'assets/images/phaser-logo.png');
+            this.load.image('trench-left', 'assets/images/trench-left.png');
+            this.load.image('dog-head', 'assets/images/dog-face.png');
+            this.load.image('dog-arm', 'assets/images/dog-arm.png');
+            this.load.image('trench-right', 'assets/images/trench-right.png');
         }
 
         create() {

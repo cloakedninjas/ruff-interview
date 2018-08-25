@@ -2,16 +2,24 @@
 
 module Hrj {
     export class Game extends Phaser.Game {
+        static WIDTH: number = 720;
+        static HEIGHT: number = 1280;
 
         constructor() {
             super({
-                width: window.innerWidth,
-                height: window.innerHeight,
+                width: Game.WIDTH,
+                height: Game.HEIGHT,
                 renderer: Phaser.AUTO
             });
 
             this.state.add('preloader', State.Preloader, true);
             this.state.add('game', State.Game);
+        }
+
+        boot() {
+            super.boot();
+            this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+            this.scale.setMinMax(0, 0, Game.WIDTH, Game.HEIGHT);
         }
     }
 }

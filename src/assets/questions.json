@@ -1,0 +1,24 @@
+{
+  "questions": [
+    {
+      "q": "Would you consider yourself a people person?",
+      "a": 0
+    },
+    {
+      "q": "How do you earn a potential client's trust?",
+      "a": 1
+    }
+  ],
+  "answers": [
+    {
+      "button": "Greeting humans",
+      "correct": "Everyone who meets me loves me",
+      "wrong": "I LOVE HUMANS!"
+    },
+    {
+      "button": "Sniffing butts",
+      "correct": "I quickly establish a rapport with my clients.",
+      "wrong": "Butts smell great"
+    }
+  ]
+}
