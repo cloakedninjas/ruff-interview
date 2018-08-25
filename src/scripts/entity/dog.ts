@@ -3,6 +3,8 @@ module Hrj.Entity {
         head: Phaser.Sprite;
         hand: Phaser.Sprite;
         trenchRight: Phaser.Sprite;
+        footLeft: Phaser.Sprite;
+        footRight: Phaser.Sprite;
 
         handTween: Phaser.Tween;
 
@@ -12,6 +14,14 @@ module Hrj.Entity {
 
             this.hand = new Phaser.Sprite(game, -50, -510, 'dog-arm');
             this.addChild(this.hand);
+
+            this.footLeft = new Phaser.Sprite(game, -50, 0, 'dog-foot');
+            this.footLeft.anchor.set(0.5, 1);
+            this.addChild(this.footLeft);
+
+            this.footRight = new Phaser.Sprite(game, 40, 0, 'dog-foot');
+            this.footRight.anchor.set(0.5, 1);
+            this.addChild(this.footRight);
 
             this.trenchRight = new Phaser.Sprite(game, 67, -107, 'trench-right');
             this.trenchRight.anchor.set(0.5, 1);
@@ -34,7 +44,35 @@ module Hrj.Entity {
             this.handTween.stop(false);
             this.game.tweens.create(this.hand.position).to({
                 x: -50
-            }, 500, Phaser.Easing.Circular.Out, true);
+            }, 500, Phaser.Easing.Quadratic.InOut, true);
+        }
+
+        idleWobble() {
+            const easing = Phaser.Easing.Linear.None;
+            const angle = 6;
+            let duration = 3000;
+
+            let tweenRight = this.game.tweens.create(this).to({
+                angle: angle
+            }, duration, easing, true, 0, 0);
+
+            window['foo'] = tweenRight;
+
+            tweenRight.onComplete.addOnce(function () {
+                console.log('doubling');
+                tweenRight.updateTweenData('duration', duration * 2);
+            });
+
+            tweenRight.onComplete.add(function () {
+                let tweenLeft = this.game.tweens.create(this).to({
+                    angle: -angle
+                }, duration * 2, easing, true, 0, 0);
+
+                tweenLeft.onComplete.add(function () {
+                    tweenRight.start();
+                });
+            }.bind(this));
+
         }
     }
 }

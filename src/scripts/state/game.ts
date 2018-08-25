@@ -9,6 +9,8 @@ module Hrj.State {
 
             this.questionManager = new Entity.QuestionManager(this.game);
             this.add.existing(this.questionManager);
+
+            this.dog.idleWobble();
         }
     }
 }
