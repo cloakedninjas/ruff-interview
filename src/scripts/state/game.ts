@@ -14,7 +14,7 @@ module Hrj.State {
         music: Phaser.Sound;
 
         create() {
-            this.add.sprite(0, 0, 'bg');
+            this.add.sprite(0, 0, 'game-bg');
 
             this.dog = new Entity.Dog(this.game);
             this.add.existing(this.dog);

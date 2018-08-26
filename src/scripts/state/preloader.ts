@@ -3,11 +3,14 @@ module Hrj.State {
         loadingBar:Entity.PreloadBar;
 
         preload() {
+            const logo = this.add.sprite(this.game.world.centerX, 100, 'title');
+            logo.anchor.set(0.5, 0.5);
+
             this.loadingBar = new Entity.PreloadBar(this.game);
-            this.load.image('bg', 'assets/images/background.png');
+            this.load.image('title-bg', 'assets/images/bg-title.png');
+            this.load.image('game-bg', 'assets/images/bg-game.png');
 
             this.load.image('trench-left', 'assets/images/trench-left.png');
-            //this.load.image('dog-head', 'assets/images/dog-face.png');
             this.load.image('dog-arm', 'assets/images/dog-arm.png');
             this.load.image('dog-arm-2', 'assets/images/dog-arm-2.png');
             this.load.image('dog-foot', 'assets/images/dog-foot.png');

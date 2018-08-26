@@ -12,7 +12,8 @@ module Hrj {
                 renderer: Phaser.AUTO
             });
 
-            this.state.add('preloader', State.Preloader, true);
+            this.state.add('boot', State.Boot, true);
+            this.state.add('preloader', State.Preloader);
             this.state.add('game', State.Game);
         }
 
