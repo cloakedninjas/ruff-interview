@@ -9,6 +9,8 @@ module Hrj.State {
         bowlFront: Phaser.Sprite;
         biscuits: Phaser.Sprite[];
 
+        result: Phaser.Sprite;
+
         create() {
             this.add.sprite(0, 0, 'bg');
 
@@ -19,12 +21,13 @@ module Hrj.State {
             this.interviewer = this.add.sprite(-120, 578, 'interviewer');
 
             this.table.x = -this.table.width;
-            this.interviewer.x = -this.interviewer.width;
+            this.interviewer.x = -this.interviewer.width - 20;
             this.interviewer.y = this.game.height;
 
             this.questionManager = new Entity.QuestionManager(this.game);
             this.add.existing(this.questionManager);
             this.questionManager.gameOver.addOnce(this.handleGameOver, this);
+            this.questionManager.questionAnswered.add(this.handleQuestionAnswer, this);
 
             this.bowl = new Phaser.Sprite(this.game, 320, 10, 'bowl-back');
             this.bowlFront = new Phaser.Sprite(this.game, 320, 10, 'bowl-front');
@@ -41,6 +44,9 @@ module Hrj.State {
             });
 
             this.table.addChild(this.bowlFront);
+
+            this.result = new Phaser.Sprite(this.game, 280, 100, 'result', 'paper-0');
+            this.table.addChild(this.result);
 
             this.playIntro();
             this.beginInterview();
@@ -71,6 +77,10 @@ module Hrj.State {
 
         removeBiscuit() {
             this.biscuits.pop().destroy();
+        }
+
+        handleQuestionAnswer() {
+            this.result.frameName = 'paper-' + this.questionManager.correctCount;
         }
 
         handleGameOver(success: boolean) {

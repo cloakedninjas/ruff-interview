@@ -30,6 +30,7 @@ module Hrj.Entity {
         wrongCount: number = 0;
         correctCount: number = 0;
 
+        questionAnswered: Phaser.Signal;
         speakerDone: Phaser.Signal;
         gameOver: Phaser.Signal;
 
@@ -111,6 +112,7 @@ module Hrj.Entity {
             this.addChild(this.thoughtBubble1);
             this.addChild(this.thoughtBubble2);
 
+            this.questionAnswered = new Phaser.Signal();
             this.speakerDone = new Phaser.Signal();
             this.gameOver = new Phaser.Signal();
         }
@@ -301,6 +303,8 @@ module Hrj.Entity {
                 this.wrongCount++;
                 endCondition = QuestionManager.RESULT_FAIL;
             }
+
+            this.questionAnswered.dispatch(result);
 
             if (this.correctCount === QuestionManager.MAX_CORRECT || this.wrongCount === QuestionManager.MAX_WRONG) {
                 this.speakerDone.addOnce(() => {
