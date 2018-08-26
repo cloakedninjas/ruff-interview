@@ -13,6 +13,8 @@ module Hrj.State {
 
         music: Phaser.Sound;
 
+        sfx: any;
+
         create() {
             this.add.sprite(0, 0, 'bg-game');
 
@@ -52,7 +54,10 @@ module Hrj.State {
             this.result = new Phaser.Sprite(this.game, 280, 100, 'result', 'paper-0');
             this.table.addChild(this.result);
 
-            this.music = this.add.audio('game-music', 1, true);
+            this.music = this.add.audio('game-music');
+            this.sfx = {
+
+            };
 
             this.playIntro();
 
@@ -60,7 +65,7 @@ module Hrj.State {
         }
 
         playIntro() {
-            this.music.play();
+            this.music.fadeIn(1000, true);
 
             const tableTween = this.game.tweens.create(this.table).to({
                 x: 0
@@ -114,6 +119,10 @@ module Hrj.State {
             } else {
                 console.log('Loss');
             }
+        }
+
+        shutdown() {
+            this.music.stop();
         }
     }
 }

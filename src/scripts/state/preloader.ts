@@ -36,7 +36,9 @@ module Hrj.State {
 
             this.load.json('questions', 'assets/questions.json');
 
-            this.load.audio('game-music', 'assets/audio/game.mp3');
+            this.load.audio('title-music', 'assets/audio/music/title.mp3');
+            this.load.audio('game-music', 'assets/audio/music/game.mp3');
+            this.load.audio('selection', 'assets/audio/sfx/selection.mp3');
         }
 
         create() {

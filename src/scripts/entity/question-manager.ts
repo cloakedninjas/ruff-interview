@@ -31,10 +31,13 @@ module Hrj.Entity {
         wrongCount: number = 0;
         correctCount: number = 0;
 
+        intSounds: Phaser.Sound[];
+        dogSoundsCorrect: Phaser.Sound[];
+        dogSoundsWrong: Phaser.Sound[];
+
         questionAnswered: Phaser.Signal;
         speakerDone: Phaser.Signal;
         gameOver: Phaser.Signal;
-
 
         constructor(game, dog:Dog) {
             super(game, null, 'qm', true);
@@ -114,6 +117,26 @@ module Hrj.Entity {
             this.addChild(this.thoughtBubble1);
             this.addChild(this.thoughtBubble2);
 
+            // sounds
+
+            this.intSounds = [
+              new Phaser.Sound(game, 'interviewer_talking_1'),
+              new Phaser.Sound(game, 'interviewer_talking_2'),
+              new Phaser.Sound(game, 'interviewer_talking_3')
+            ];
+
+            this.dogSoundsCorrect = [
+                new Phaser.Sound(game, 'dog_talk_correct_1'),
+                new Phaser.Sound(game, 'dog_talk_correct_2'),
+                new Phaser.Sound(game, 'dog_talk_correct_3')
+            ];
+
+            this.dogSoundsWrong = [
+                new Phaser.Sound(game, 'dog_talk_wrong_1'),
+                new Phaser.Sound(game, 'dog_talk_wrong_2'),
+                new Phaser.Sound(game, 'dog_talk_wrong_3')
+            ];
+
             this.questionAnswered = new Phaser.Signal();
             this.speakerDone = new Phaser.Signal();
             this.gameOver = new Phaser.Signal();
@@ -132,12 +155,19 @@ module Hrj.Entity {
 
         interviewerSpeak(text: string) {
             this.personSpeak(false, text);
+
+            const rand = Math.floor(Phaser.Math.random(0, this.intSounds.length));
+            this.intSounds[rand].play();
         }
 
-        dogSpeak(text: string) {
+        dogSpeak(text: string, correct: boolean) {
             this.personSpeak(true, text);
             const words = text.split(' ');
             this.dog.speak(words.length);
+
+            const soundBank = correct ? this.dogSoundsCorrect : this.dogSoundsWrong;
+            const rand = Math.floor(Phaser.Math.random(0, soundBank.length));
+            soundBank[rand].play();
         }
 
         personSpeak(dog: boolean, text: string) {
@@ -276,7 +306,7 @@ module Hrj.Entity {
             } else {
                 trans = this.wrongAnswer.translation;
             }
-            this.dogSpeak(trans);
+            this.dogSpeak(trans, result === QuestionManager.B_RESULT_CORRECT);
 
             this.speakerDone.addOnce(() => {
                 this.game.time.events.add(2000, this.interviewerResponse, this, result);

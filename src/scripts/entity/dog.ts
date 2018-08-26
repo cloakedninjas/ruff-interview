@@ -26,6 +26,8 @@ module Hrj.Entity {
         headAnim: Phaser.Animation;
         blinkTimer: Phaser.TimerEvent;
 
+        sfx: any;
+
         constructor(game) {
             super(game, 540, game.height, 'trench-left');
             this.anchor.set(0.5, 1);
@@ -61,6 +63,12 @@ module Hrj.Entity {
 
             this.game.time.events.add(3000, this.blink, this);
 
+            this.sfx = {
+                pawStretch: this.game.add.audio('paw_stretch'),
+                slapPaw: this.game.add.audio('slap_paw'),
+                takeBiscuit: this.game.add.audio('yoink_retreat')
+            };
+
             this.grabbedBiscuit = new Phaser.Signal();
             this.fallOver = new Phaser.Signal();
 
@@ -79,9 +87,10 @@ module Hrj.Entity {
 
         reachOut() {
             this.hand.inputEnabled = true;
+            this.sfx.pawStretch.play();
             this.handTween = this.game.tweens.create(this.hand.position).to({
                 x: -190
-            }, 2000, Phaser.Easing.Linear.None, true);
+            }, 3800, Phaser.Easing.Linear.None, true);
 
             this.handTween.onComplete.add(() => {
                 this.grabTimer = this.game.time.events.add(500, this.grabBiscuit, this);
@@ -89,6 +98,7 @@ module Hrj.Entity {
         }
 
         retractHand() {
+            this.sfx.slapPaw.play();
             this.handTween.stop(false);
             this.game.time.events.remove(this.grabTimer);
 
@@ -101,12 +111,13 @@ module Hrj.Entity {
 
         grabBiscuit() {
             this.hand.inputEnabled = false;
+            this.sfx.takeBiscuit.play();
             this.grabbedBiscuit.dispatch();
             this.hand.loadTexture('dog-arm-2');
 
             this.handTween = this.game.tweens.create(this.hand.position).to({
                 x: -77
-            }, 800, Phaser.Easing.Quadratic.InOut, true);
+            }, 500, Phaser.Easing.Quadratic.InOut, true);
 
             this.handTween.onComplete.add(() => {
                 this.hand.loadTexture('dog-arm');
