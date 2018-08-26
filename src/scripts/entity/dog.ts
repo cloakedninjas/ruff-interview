@@ -6,7 +6,7 @@ module Hrj.Entity {
 
         private static IDLE_WOBBLE_ANGLE: number = 3;
         private static FULL_WOBBLE_ANGLE: number = 60;
-        private static WOBBLE_TIP_CHANCE: number = 0.3;
+        private static WOBBLE_TIP_CHANCE: number = 1; //0.3;
 
         head: Phaser.Sprite;
         hand: Phaser.Sprite;
@@ -25,6 +25,8 @@ module Hrj.Entity {
 
         headAnim: Phaser.Animation;
         blinkTimer: Phaser.TimerEvent;
+
+        fallStopButton: Phaser.Sprite;
 
         sfx: any;
 
@@ -69,6 +71,10 @@ module Hrj.Entity {
                 takeBiscuit: this.game.add.audio('yoink_retreat'),
                 fallOver: this.game.add.audio('fall_over')
             };
+
+            this.fallStopButton = this.game.add.sprite(380, 1100);
+            this.fallStopButton.width = 320;
+            this.fallStopButton.height = 180;
 
             this.grabbedBiscuit = new Phaser.Signal();
             this.fallOver = new Phaser.Signal();
@@ -158,7 +164,7 @@ module Hrj.Entity {
         }
 
         beginFall() {
-            this.footRight.inputEnabled = true;
+            this.fallStopButton.inputEnabled = true;
             this.fallBodyTween = this.game.tweens.create(this).to({
                 angle: -Dog.FULL_WOBBLE_ANGLE
             }, 7000, Phaser.Easing.Exponential.In, true);
@@ -168,16 +174,16 @@ module Hrj.Entity {
             }, 4000, Phaser.Easing.Quadratic.In, true, 3000);
 
             this.fallBodyTween.onComplete.add(() => {
-                this.footRight.inputEnabled = false;
+                this.fallStopButton.inputEnabled = false;
                 this.sfx.fallOver.play();
                 this.fallOver.dispatch();
             });
 
-            this.footRight.events.onInputDown.add(this.correctFall, this);
+            this.fallStopButton.events.onInputDown.add(this.correctFall, this);
         }
 
         correctFall() {
-            this.footRight.inputEnabled = false;
+            this.fallStopButton.inputEnabled = false;
 
             this.fallBodyTween.stop(false);
             this.fallFootTween.stop(false);
