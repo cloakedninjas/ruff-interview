@@ -1,12 +1,12 @@
 module Hrj.Entity {
     export class Dog extends Phaser.Sprite {
-        private static GRAB_MIN_DELAY: number = 3000;
-        private static GRAB_MAX_DELAY: number = 4000;
+        private static GRAB_MIN_DELAY: number = 8000;
+        private static GRAB_MAX_DELAY: number = 12000;
         private static GRAB_GRACE_DELAY: number = 3000;
 
         private static IDLE_WOBBLE_ANGLE: number = 3;
         private static FULL_WOBBLE_ANGLE: number = 60;
-        private static WOBBLE_TIP_CHANCE: number = 1; // TODO change
+        private static WOBBLE_TIP_CHANCE: number = 0.5;
 
         head: Phaser.Sprite;
         hand: Phaser.Sprite;
@@ -22,6 +22,9 @@ module Hrj.Entity {
 
         grabbedBiscuit: Phaser.Signal;
         fallOver: Phaser.Signal;
+
+        headAnim: Phaser.Animation;
+        blinkTimer: Phaser.TimerEvent;
 
         constructor(game) {
             super(game, 540, game.height, 'trench-left');
@@ -43,9 +46,20 @@ module Hrj.Entity {
             this.trenchRight.anchor.set(0.5, 1);
             this.addChild(this.trenchRight);
 
-            this.head = new Phaser.Sprite(game, 0, -688, 'dog-head');
+            this.head = new Phaser.Sprite(game, 0, -688, 'dog', 'dog-face-1');
             this.head.anchor.set(0.5, 1);
+
+            this.head.animations.add('idle', [
+                'dog-face-1', 'dog-face-blink1', 'dog-face-blink2', 'dog-face-blink1', 'dog-face-1'
+            ], 30, false);
+
+            this.head.animations.add('speak', [
+                'dog-face-1', 'dog-face-2'
+            ], 30, false);
+
             this.addChild(this.head);
+
+            this.game.time.events.add(3000, this.blink, this);
 
             this.grabbedBiscuit = new Phaser.Signal();
             this.fallOver = new Phaser.Signal();
@@ -172,7 +186,33 @@ module Hrj.Entity {
         stopAll() {
             this.hand.inputEnabled = false;
             this.game.time.events.remove(this.grabTimer);
-            this.handTween.stop(false);
+
+            if (this.handTween) {
+                this.handTween.stop(false);
+            }
+        }
+
+        blink() {
+            this.headAnim = this.head.play('idle');
+
+            const rand = Phaser.Math.random(3000, 6000);
+            this.blinkTimer = this.game.time.events.add(rand, this.blink, this);
+        }
+
+        speak(words: number) {
+            if (this.headAnim) {
+                this.headAnim.stop();
+            }
+
+            this.game.time.events.remove(this.blinkTimer);
+
+            this.headAnim = this.head.play('speak', 10, true);
+            this.headAnim.onLoop.add(() => {
+                if (this.headAnim.loopCount >= words) {
+                    this.headAnim.stop(true);
+                    this.blink();
+                }
+            });
         }
     }
 }

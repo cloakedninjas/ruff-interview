@@ -8,6 +8,7 @@ module Hrj.Entity {
         private static B_RESULT_INCORRECT: number = 2;
         private static B_RESULT_WRONG: number = 3;
 
+        dog:Dog;
         data: any;
         intBubble: Phaser.Sprite;
         interviewerText: Phaser.Text;
@@ -35,9 +36,10 @@ module Hrj.Entity {
         gameOver: Phaser.Signal;
 
 
-        constructor(game) {
+        constructor(game, dog:Dog) {
             super(game, null, 'qm', true);
 
+            this.dog = dog;
             this.data = game.cache.getJSON('questions');
             this.intBubble = new Phaser.Sprite(game, 10, 220, 'speech-bubble');
             this.intBubble.visible = false;
@@ -134,6 +136,8 @@ module Hrj.Entity {
 
         dogSpeak(text: string) {
             this.personSpeak(true, text);
+            const words = text.split(' ');
+            this.dog.speak(words.length);
         }
 
         personSpeak(dog: boolean, text: string) {

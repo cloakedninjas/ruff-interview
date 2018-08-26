@@ -1,7 +1,7 @@
 {"frames": [
 
 {
-	"filename": "dog-face-1.png",
+	"filename": "dog-face-1",
 	"frame": {"x":0,"y":0,"w":284,"h":253},
 	"rotated": false,
 	"trimmed": false,
@@ -9,7 +9,7 @@
 	"sourceSize": {"w":284,"h":253}
 },
 {
-	"filename": "dog-face-2.png",
+	"filename": "dog-face-2",
 	"frame": {"x":284,"y":0,"w":284,"h":253},
 	"rotated": false,
 	"trimmed": false,
@@ -17,7 +17,7 @@
 	"sourceSize": {"w":284,"h":253}
 },
 {
-	"filename": "dog-face-blink1.png",
+	"filename": "dog-face-blink1",
 	"frame": {"x":568,"y":0,"w":284,"h":253},
 	"rotated": false,
 	"trimmed": false,
@@ -25,7 +25,7 @@
 	"sourceSize": {"w":284,"h":253}
 },
 {
-	"filename": "dog-face-blink2.png",
+	"filename": "dog-face-blink2",
 	"frame": {"x":852,"y":0,"w":284,"h":253},
 	"rotated": false,
 	"trimmed": false,

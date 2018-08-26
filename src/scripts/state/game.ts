@@ -28,7 +28,7 @@ module Hrj.State {
             this.interviewer.x = -this.interviewer.width - 20;
             this.interviewer.y = this.game.height;
 
-            this.questionManager = new Entity.QuestionManager(this.game);
+            this.questionManager = new Entity.QuestionManager(this.game, this.dog);
             this.add.existing(this.questionManager);
             this.questionManager.gameOver.addOnce(this.handleGameOver, this);
             this.questionManager.questionAnswered.add(this.handleQuestionAnswer, this);
