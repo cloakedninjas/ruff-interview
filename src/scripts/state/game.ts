@@ -32,7 +32,7 @@ module Hrj.State {
 
             this.questionManager = new Entity.QuestionManager(this.game, this.dog);
             this.add.existing(this.questionManager);
-            this.questionManager.gameOver.addOnce(this.handleGameOver, this);
+            this.questionManager.gameOver.addOnce(this.handleGameOver, this, null, false, 'errors');
             this.questionManager.questionAnswered.add(this.handleQuestionAnswer, this);
 
             this.bowl = new Phaser.Sprite(this.game, 320, 10, 'bowl-back');
@@ -93,7 +93,7 @@ module Hrj.State {
 
                 this.game.time.events.add(1000, () => {
                     this.questionManager.interviewerSpeak('Whoa, whoa whoa ... where did all the biscuits go?');
-                    this.handleGameOver(false);
+                    this.handleGameOver(false, 'biscuits');
                 });
             }
         }
@@ -103,22 +103,18 @@ module Hrj.State {
             this.game.time.events.add(2000, () => {
                 this.questionManager.interviewerSpeak('I\'m not even mad, that\'s amazing');
             });
-            this.handleGameOver(false);
+            this.handleGameOver(false, 'fell');
         }
 
         handleQuestionAnswer() {
             this.result.frameName = 'paper-' + this.questionManager.correctCount;
         }
 
-        handleGameOver(success: boolean) {
+        handleGameOver(success: boolean, failCond: string) {
             this.dog.stopAll();
             this.questionManager.clearThoughtBubbles();
 
-            if (success) {
-                console.log('Win');
-            } else {
-                console.log('Loss');
-            }
+            this.game.state.start('end', true, false, success, failCond);
         }
 
         shutdown() {

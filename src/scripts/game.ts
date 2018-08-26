@@ -16,6 +16,7 @@ module Hrj {
             this.state.add('preloader', State.Preloader);
             this.state.add('title', State.Title);
             this.state.add('game', State.Game);
+            this.state.add('end', State.End);
         }
 
         boot() {

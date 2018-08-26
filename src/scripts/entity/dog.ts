@@ -6,7 +6,7 @@ module Hrj.Entity {
 
         private static IDLE_WOBBLE_ANGLE: number = 3;
         private static FULL_WOBBLE_ANGLE: number = 60;
-        private static WOBBLE_TIP_CHANCE: number = 0.5;
+        private static WOBBLE_TIP_CHANCE: number = 0.3;
 
         head: Phaser.Sprite;
         hand: Phaser.Sprite;

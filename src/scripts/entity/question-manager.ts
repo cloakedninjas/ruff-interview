@@ -150,7 +150,7 @@ module Hrj.Entity {
 
             this.sfx = {
                 intImpressed: game.add.audio('interviewer_impressed'),
-                intDisappoint: game.add.audio('interviewer_impressed'),
+                intDisappoint: game.add.audio('interviewer_disappoint'),
                 click: game.add.audio('selection')
             };
 
