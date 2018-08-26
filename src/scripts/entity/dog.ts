@@ -50,7 +50,7 @@ module Hrj.Entity {
             this.trenchRight.anchor.set(0.5, 1);
             this.addChild(this.trenchRight);
 
-            this.head = new Phaser.Sprite(game, 0, -688, 'dog', 'dog-face-1');
+            this.head = new Phaser.Sprite(game, -40, -688, 'dog', 'dog-face-1');
             this.head.anchor.set(0.5, 1);
 
             this.head.animations.add('idle', [

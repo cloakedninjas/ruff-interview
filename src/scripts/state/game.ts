@@ -102,8 +102,11 @@ module Hrj.State {
             this.questionManager.interviewerSpeak('What the heck? You were dogs?!');
             this.game.time.events.add(2000, () => {
                 this.questionManager.interviewerSpeak('I\'m not even mad, that\'s amazing');
+
+                this.game.time.events.add(2000, () => {
+                    this.handleGameOver(false, 'fell');
+                });
             });
-            this.handleGameOver(false, 'fell');
         }
 
         handleQuestionAnswer() {

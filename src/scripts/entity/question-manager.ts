@@ -391,7 +391,9 @@ module Hrj.Entity {
             this.interviewerSpeak(endMsg);
 
             this.speakerDone.addOnce(() => {
-                this.gameOver.dispatch(result);
+                this.game.time.events.add(2000, () => {
+                    this.gameOver.dispatch(result);
+                });
             });
         }
 
