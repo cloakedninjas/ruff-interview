@@ -7,6 +7,9 @@ module Hrj.Entity {
         private static B_RESULT_CORRECT: number = 1;
         private static B_RESULT_INCORRECT: number = 2;
         private static B_RESULT_WRONG: number = 3;
+        private static INT_VOICE_NORMAL: number = 1;
+        private static INT_VOICE_IMPRESSED: number = 2;
+        private static INT_VOICE_DISAPPOINT: number = 3;
 
         dog:Dog;
         data: any;
@@ -35,6 +38,7 @@ module Hrj.Entity {
         dogSoundsCorrect: Phaser.Sound[];
         dogSoundsWrong: Phaser.Sound[];
         bubbleSounds: Phaser.Sound[];
+        sfx: any;
 
         questionAnswered: Phaser.Signal;
         speakerDone: Phaser.Signal;
@@ -144,6 +148,14 @@ module Hrj.Entity {
                 new Phaser.Sound(game, 'bubble_3')
             ];
 
+            this.sfx = {
+                intImpressed: game.add.audio('interviewer_impressed'),
+                intDisappoint: game.add.audio('interviewer_impressed'),
+                click: game.add.audio('selection')
+            };
+
+            // signals
+
             this.questionAnswered = new Phaser.Signal();
             this.speakerDone = new Phaser.Signal();
             this.gameOver = new Phaser.Signal();
@@ -160,11 +172,17 @@ module Hrj.Entity {
             });
         }
 
-        interviewerSpeak(text: string) {
+        interviewerSpeak(text: string, voice: number = QuestionManager.INT_VOICE_NORMAL) {
             this.personSpeak(false, text);
 
-            const rand = Math.floor(Phaser.Math.random(0, this.intSounds.length));
-            this.intSounds[rand].play();
+            if (voice === QuestionManager.INT_VOICE_NORMAL) {
+                const rand = Math.floor(Phaser.Math.random(0, this.intSounds.length));
+                this.intSounds[rand].play();
+            } else if (voice === QuestionManager.INT_VOICE_IMPRESSED) {
+                this.sfx.intImpressed.play();
+            } else {
+                this.sfx.intDisappoint.play();
+            }
         }
 
         dogSpeak(text: string, correct: boolean) {
@@ -281,6 +299,8 @@ module Hrj.Entity {
         handleButtonPush(button: TextButton) {
             let buttonResult;
 
+            this.sfx.click.play();
+
             if (button === this.correctButton) {
                 buttonResult = QuestionManager.B_RESULT_CORRECT;
             } else if (button === this.incorrectButton) {
@@ -326,17 +346,19 @@ module Hrj.Entity {
         interviewerResponse(result: number) {
             this.hideSpeech(true);
 
-            let response, i, endCondition;
+            let response, i, voice, endCondition;
 
             if (result === QuestionManager.B_RESULT_CORRECT) {
                 i = Math.floor(Phaser.Math.random(0, this.data.positive_responses.length));
                 response = this.data.positive_responses[i];
+                voice = QuestionManager.INT_VOICE_IMPRESSED;
             } else {
                 i = Math.floor(Phaser.Math.random(0, this.data.negative_responses.length));
                 response = this.data.negative_responses[i];
+                voice = QuestionManager.INT_VOICE_DISAPPOINT;
             }
 
-            this.interviewerSpeak(response);
+            this.interviewerSpeak(response, voice);
 
             // pick next action based on result
 

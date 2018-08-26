@@ -42,6 +42,8 @@ module Hrj.State {
             this.load.audio('interviewer_talking_1', 'assets/audio/sfx/interviewer_talking_1.mp3');
             this.load.audio('interviewer_talking_2', 'assets/audio/sfx/interviewer_talking_2.mp3');
             this.load.audio('interviewer_talking_3', 'assets/audio/sfx/interviewer_talking_3.mp3');
+            this.load.audio('interviewer_disappoint', 'assets/audio/sfx/interviewer_disappoint.mp3');
+            this.load.audio('interviewer_impressed', 'assets/audio/sfx/interviewer_impressed.mp3');
 
             this.load.audio('dog_talk_correct_1', 'assets/audio/sfx/dog_talk_correct_1.mp3');
             this.load.audio('dog_talk_correct_2', 'assets/audio/sfx/dog_talk_correct_2.mp3');
