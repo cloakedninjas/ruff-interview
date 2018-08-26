@@ -4,6 +4,10 @@ module Hrj.Entity {
         private static GRAB_MAX_DELAY: number = 4000;
         private static GRAB_GRACE_DELAY: number = 3000;
 
+        private static IDLE_WOBBLE_ANGLE: number = 3;
+        private static FULL_WOBBLE_ANGLE: number = 60;
+        private static WOBBLE_TIP_CHANCE: number = 1; // TODO change
+
         head: Phaser.Sprite;
         hand: Phaser.Sprite;
         trenchRight: Phaser.Sprite;
@@ -13,7 +17,11 @@ module Hrj.Entity {
         handTween: Phaser.Tween;
         grabTimer: Phaser.TimerEvent;
 
+        fallBodyTween: Phaser.Tween;
+        fallFootTween: Phaser.Tween;
+
         grabbedBiscuit: Phaser.Signal;
+        fallOver: Phaser.Signal;
 
         constructor(game) {
             super(game, 540, game.height, 'trench-left');
@@ -27,8 +35,8 @@ module Hrj.Entity {
             this.footLeft.anchor.set(0.5, 1);
             this.addChild(this.footLeft);
 
-            this.footRight = new Phaser.Sprite(game, 40, 0, 'dog-foot');
-            this.footRight.anchor.set(0.5, 1);
+            this.footRight = new Phaser.Sprite(game, 40, -112, 'dog-foot');
+            this.footRight.anchor.set(0.5, 0);
             this.addChild(this.footRight);
 
             this.trenchRight = new Phaser.Sprite(game, 0, 0, 'trench-right');
@@ -40,6 +48,7 @@ module Hrj.Entity {
             this.addChild(this.head);
 
             this.grabbedBiscuit = new Phaser.Signal();
+            this.fallOver = new Phaser.Signal();
 
             window['dog'] = this;
         }
@@ -94,39 +103,70 @@ module Hrj.Entity {
         }
 
         idleWobble() {
-            const easing = Phaser.Easing.Linear.None;
-            const angle = 5;
+            const easing = Phaser.Easing.Sinusoidal.InOut;
             let duration = 3000;
 
             let tweenRight = this.game.tweens.create(this).to({
-                angle: angle
-            }, duration, easing, true, 0, 0);
-
-            let footRightRight = this.game.tweens.create(this.footRight).to({
-                angle: -angle
-            }, duration, easing, true, 0, 0);
+                angle: Dog.IDLE_WOBBLE_ANGLE
+            }, duration, easing, true);
 
             tweenRight.onComplete.addOnce(function () {
                 tweenRight.updateTweenData('duration', duration * 2);
-                footRightRight.updateTweenData('duration', duration * 2);
             });
 
-            tweenRight.onComplete.add(function () {
-                let tweenLeft = this.game.tweens.create(this).to({
-                    angle: -angle
-                }, duration * 2, easing, true, 0, 0);
+            tweenRight.onComplete.add(() => {
+                // will a full wobble occur?
+                if (Math.random() <= Dog.WOBBLE_TIP_CHANCE) {
+                    this.beginFall();
+                } else {
+                    let tweenLeft = this.game.tweens.create(this).to({
+                        angle: -Dog.IDLE_WOBBLE_ANGLE
+                    }, duration * 2, easing, true);
 
-                this.game.tweens.create(this.footRight).to({
-                    angle: angle
-                }, duration, easing, true, 0, 0);
+                    tweenLeft.onComplete.add(() => {
+                        tweenRight.start();
+                    });
+                }
+            });
+        }
 
-                tweenLeft.onComplete.add(function () {
-                    tweenRight.start();
-                    footRightRight.start();
-                });
+        beginFall() {
+            this.footRight.inputEnabled = true;
+            this.fallBodyTween = this.game.tweens.create(this).to({
+                angle: -Dog.FULL_WOBBLE_ANGLE
+            }, 7000, Phaser.Easing.Exponential.In, true);
 
+            this.fallFootTween = this.game.tweens.create(this.footRight).to({
+                angle: -25
+            }, 4000, Phaser.Easing.Quadratic.In, true, 3000);
 
-            }.bind(this));
+            this.fallBodyTween.onComplete.add(() => {
+                this.footRight.inputEnabled = false;
+                this.fallOver.dispatch();
+            });
+
+            this.footRight.events.onInputDown.add(this.correctFall, this);
+        }
+
+        correctFall() {
+            this.footRight.inputEnabled = false;
+
+            this.fallBodyTween.stop(false);
+            this.fallFootTween.stop(false);
+
+            const tween = this.game.tweens.create(this).to({
+                angle: 0
+            }, 800, Phaser.Easing.Back.Out, true);
+
+            this.game.tweens.create(this.footRight).to({
+                angle: 0
+            }, 300, Phaser.Easing.Exponential.In, true);
+
+            // queue wobble idle
+
+            tween.onComplete.add(() => {
+                this.game.time.events.add(Dog.GRAB_GRACE_DELAY, this.idleWobble, this);
+            });
         }
 
         stopAll() {

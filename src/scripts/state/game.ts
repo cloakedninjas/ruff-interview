@@ -19,6 +19,7 @@ module Hrj.State {
             this.dog = new Entity.Dog(this.game);
             this.add.existing(this.dog);
             this.dog.grabbedBiscuit.add(this.removeBiscuit, this);
+            this.dog.fallOver.add(this.handleFallOver, this);
 
             this.table = this.add.sprite(0, 889, 'table');
             this.interviewer = this.add.sprite(-120, 578, 'interviewer');
@@ -92,6 +93,11 @@ module Hrj.State {
                     this.handleGameOver(false);
                 });
             }
+        }
+
+        handleFallOver() {
+            this.dog.stopAll();
+            this.handleGameOver(false);
         }
 
         handleQuestionAnswer() {
