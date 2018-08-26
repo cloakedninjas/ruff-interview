@@ -89,14 +89,17 @@ module Hrj.State {
             if (this.biscuits.length === 0) {
 
                 this.game.time.events.add(1000, () => {
-                    this.questionManager.interviewerSpeak('Whoa, whoa whoa ... where did all the biscuits go?')
+                    this.questionManager.interviewerSpeak('Whoa, whoa whoa ... where did all the biscuits go?');
                     this.handleGameOver(false);
                 });
             }
         }
 
         handleFallOver() {
-            this.dog.stopAll();
+            this.questionManager.interviewerSpeak('What the heck? You were dogs?!');
+            this.game.time.events.add(2000, () => {
+                this.questionManager.interviewerSpeak('I\'m not even mad, that\'s amazing');
+            });
             this.handleGameOver(false);
         }
 
@@ -106,6 +109,7 @@ module Hrj.State {
 
         handleGameOver(success: boolean) {
             this.dog.stopAll();
+            this.questionManager.clearThoughtBubbles();
 
             if (success) {
                 console.log('Win');

@@ -328,5 +328,14 @@ module Hrj.Entity {
                 this.gameOver.dispatch(result);
             });
         }
+
+        clearThoughtBubbles() {
+            this.thoughtBubble1.visible = false;
+            this.thoughtBubble2.visible = false;
+
+            this.buttons.forEach((button) => {
+                button.visible = false;
+            });
+        }
     }
 }
