@@ -9,22 +9,50 @@
       "a": 1
     },
     {
-      "q": "Do you have any experience dealing with clients?",
+      "q": "Do you have any experience dealing with customer complaints?",
       "a": 2
     },
     {
       "q": "What do you do in your free time?",
       "a": 3
+    },
+    {
+      "q": "How well do you deal with authority?",
+      "a": 4
+    },
+    {
+      "q": "What motivates you?",
+      "a": 5
+    },
+    {
+      "q": "How do you measure the quality of the work you do?",
+      "a": 6
+    },
+    {
+      "q": "What kind of sales tactics do you use?",
+      "a": 7
+    },
+    {
+      "q": "How do you win over a client in the face of fierce competition?",
+      "a": 8
+    },
+    {
+      "q": "Do you follow the news?",
+      "a": 9
+    },
+    {
+      "q": "How do you behave around clients?",
+      "a": 10
     }
   ],
   "answers": [
     {
-      "button": "Greeting humans",
+      "button": "Greet humans",
       "correct": "Everyone who meets me loves me",
       "wrong": "I LOVE HUMANS!"
     },
     {
-      "button": "Sniffing butts",
+      "button": "Sniff butts",
       "correct": "I quickly establish a rapport with my clients.",
       "wrong": "Butts smell great"
     },
@@ -34,23 +62,82 @@
       "wrong": "I AM FRIEND!"
     },
     {
-      "button": "Sleeping",
+      "button": "Sleep",
       "correct": "I like to rest and relax so I'm ready for work the next day.",
-      "wrong": "Zzzzzzzzzz...."
+      "wrong": "I LOVE NAPS!"
+    },
+    {
+      "button": "Roll over",
+      "correct": "I respect good management and follow directions.",
+      "wrong": "I feel dizzy..."
+    },
+    {
+      "button": "Getting treats",
+      "correct": "I am highly motivated by a competitive salary.",
+      "wrong": "SNACKS!?"
+    },
+    {
+      "button": "Grooming myself",
+      "correct": "I'm very introspective and critical of my own work.",
+      "wrong": "MY BUTT IS ITCHY!"
+    },
+    {
+      "button": "Whimper",
+      "correct": "I appeal to the client's emotions to persuade them.",
+      "wrong": "I'm sad..."
+    },
+    {
+      "button": "Tug of war",
+      "correct": "I appeal to the client's interests and needs to sway them.",
+      "wrong": "NO! MINE!"
+    },
+    {
+      "button": "Sniff everything",
+      "correct": "I have a thirst for knowledge and stay up to date on current events.",
+      "wrong": "Everything is interesting!"
+    },
+    {
+      "button": "Give paw",
+      "correct": "My manners are impeccable.",
+      "wrong": "HELLO!"
     }
   ],
   "bad_answers": [
     {
-      "button": "Barking at the mailman",
-      "translation": "Shouting at my colleagues"
+      "button": "Bark bark!",
+      "translation": "I HAVE LOTS TO SAY!"
     },
     {
-      "button": "Chasing my tail",
-      "translation": "Going round in circles aimlessly"
+      "button": "Chase tail",
+      "translation": "Someday I'll get you!"
     },
     {
-      "button": "Digging holes",
-      "translation": "Vandalising office equipment"
+      "button": "Dig up yard",
+      "translation": "You didn't like those plants at reception, did you?"
+    },
+    {
+      "button": "Hunt squirrels",
+      "translation": "I get easily distr.. - SQUIRREL!"
+    },
+    {
+      "button": "Fart",
+      "translation": "Don't blame me for your problems..."
+    },
+    {
+      "button": "Eat people food",
+      "translation": "I hope you didn't want that sandwich in the fridge."
+    },
+    {
+      "button": "Drink from toilet",
+      "translation": "I have some unhealthy habits but I'm resourceful."
+    },
+    {
+      "button": "Chew slippers",
+      "translation": "Can I see your shoes for just a second?"
+    },
+    {
+      "button": "Eat from trash",
+      "translation": "I see you left some snacks in the trash. Can I have them?"
     }
   ],
   "positive_responses": [
@@ -61,7 +148,6 @@
     "Wonderful",
     "You'll fit right in!"
   ],
-
   "negative_responses": [
     "Hmmm....",
     "Is this some kind of joke?",

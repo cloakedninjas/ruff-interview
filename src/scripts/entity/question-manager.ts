@@ -1,7 +1,7 @@
 module Hrj.Entity {
     export class QuestionManager extends Phaser.Group {
-        static MAX_WRONG: number = 2; // TODO change
-        static MAX_CORRECT: number = 2;  // TODO change
+        static MAX_WRONG: number = 3;
+        static MAX_CORRECT: number = 8;
         static RESULT_FAIL: boolean = false;
         static RESULT_SUCCESS: boolean = true;
         private static B_RESULT_CORRECT: number = 1;

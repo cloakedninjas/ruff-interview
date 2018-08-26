@@ -12,6 +12,8 @@ module Hrj.State {
             this.load.image('bg-end-fail', 'assets/images/bg-end-fail.png');
 
             this.load.image('title-dog1', 'assets/images/title-dog1.png');
+            this.load.image('title-dog-left', 'assets/images/title-dog-left.png');
+            this.load.image('title-dog-right', 'assets/images/title-dog-right.png');
             this.load.image('btn-play', 'assets/images/play.png');
 
             this.load.image('trench-left', 'assets/images/trench-left.png');
@@ -50,7 +52,7 @@ module Hrj.State {
             this.load.audio('game-music', 'assets/audio/music/game.mp3');
             this.load.audio('game_over_fail', 'assets/audio/music/game_over_fail.mp3');
             this.load.audio('game_over_success', 'assets/audio/music/game_over_success.mp3');
-            
+
             this.load.audio('selection', 'assets/audio/sfx/selection.mp3');
             this.load.audio('interviewer_talking_1', 'assets/audio/sfx/interviewer_talking_1.mp3');
             this.load.audio('interviewer_talking_2', 'assets/audio/sfx/interviewer_talking_2.mp3');
@@ -83,8 +85,7 @@ module Hrj.State {
         }
 
         startGame() {
-            //this.game.state.start('title', true);
-            this.game.state.start('end', true, false, false, 'biscuits');
+            this.game.state.start('title', true);
         }
 
         loadUpdate() {
