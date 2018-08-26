@@ -52,7 +52,7 @@ module Hrj.Entity {
 
         beginReaching() {
             const delay = Phaser.Math.random(Dog.GRAB_MIN_DELAY, Dog.GRAB_MAX_DELAY);
-            this.game.time.events.add(delay, this.reachOut, this);
+            this.grabTimer = this.game.time.events.add(delay, this.reachOut, this);
         }
 
         reachOut() {
@@ -81,11 +81,11 @@ module Hrj.Entity {
             this.grabbedBiscuit.dispatch();
             this.hand.loadTexture('dog-arm-2');
 
-            const tween = this.game.tweens.create(this.hand.position).to({
+            this.handTween = this.game.tweens.create(this.hand.position).to({
                 x: -77
             }, 800, Phaser.Easing.Quadratic.InOut, true);
 
-            tween.onComplete.add(() => {
+            this.handTween.onComplete.add(() => {
                 this.hand.loadTexture('dog-arm');
                 this.hand.x = -50;
 
@@ -127,7 +127,12 @@ module Hrj.Entity {
 
 
             }.bind(this));
+        }
 
+        stopAll() {
+            this.hand.inputEnabled = false;
+            this.game.time.events.remove(this.grabTimer);
+            this.handTween.stop(false);
         }
     }
 }

@@ -292,7 +292,7 @@ module Hrj.Entity {
                 response = this.data.negative_responses[i];
             }
 
-            this.personSpeak(false, response);
+            this.interviewerSpeak(response);
 
             // pick next action based on result
 
@@ -322,7 +322,7 @@ module Hrj.Entity {
                 'Ok, that about covers all my questions. I think you\'ll make a great part of the team' :
                 'I\'m going to have to stop you there. I\'m not sure this is right the place for you';
 
-            this.personSpeak(false, endMsg);
+            this.interviewerSpeak(endMsg);
 
             this.speakerDone.addOnce(() => {
                 this.gameOver.dispatch(result);

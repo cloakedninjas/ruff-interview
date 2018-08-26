@@ -78,6 +78,14 @@ module Hrj.State {
 
         removeBiscuit() {
             this.biscuits.pop().destroy();
+
+            if (this.biscuits.length === 0) {
+
+                this.game.time.events.add(1000, () => {
+                    this.questionManager.interviewerSpeak('Whoa, whoa whoa ... where did all the biscuits go?')
+                    this.handleGameOver(false);
+                });
+            }
         }
 
         handleQuestionAnswer() {
@@ -85,6 +93,8 @@ module Hrj.State {
         }
 
         handleGameOver(success: boolean) {
+            this.dog.stopAll();
+
             if (success) {
                 console.log('Win');
             } else {
