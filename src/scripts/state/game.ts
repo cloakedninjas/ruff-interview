@@ -14,7 +14,7 @@ module Hrj.State {
         music: Phaser.Sound;
 
         create() {
-            this.add.sprite(0, 0, 'game-bg');
+            this.add.sprite(0, 0, 'bg-game');
 
             this.dog = new Entity.Dog(this.game);
             this.add.existing(this.dog);
@@ -55,7 +55,6 @@ module Hrj.State {
             this.music = this.add.audio('game-music', 1, true);
 
             this.playIntro();
-            this.beginInterview();
 
             window['state'] = this;
         }
@@ -67,15 +66,14 @@ module Hrj.State {
                 x: 0
             }, 1000, Phaser.Easing.Exponential.InOut, true, 1000);
 
-            tableTween.onComplete.add(function () {
+            tableTween.onComplete.add(() => {
                 const intTween = this.game.tweens.create(this.interviewer).to({
                     x: -120,
                     y: 578
                 }, 2000, Phaser.Easing.Quintic.Out, true, 1000);
 
-                // TODO uncomment
-                // intTween.onComplete.add(this.beginInterview, this);
-            }.bind(this));
+                intTween.onComplete.add(this.beginInterview, this);
+            });
         }
 
         beginInterview() {

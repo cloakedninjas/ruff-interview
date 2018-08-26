@@ -7,8 +7,11 @@ module Hrj.State {
             logo.anchor.set(0.5, 0.5);
 
             this.loadingBar = new Entity.PreloadBar(this.game);
-            this.load.image('title-bg', 'assets/images/bg-title.png');
-            this.load.image('game-bg', 'assets/images/bg-game.png');
+            this.load.image('bg-title', 'assets/images/bg-title.png');
+            this.load.image('bg-game', 'assets/images/bg-game.png');
+
+            this.load.image('title-dog1', 'assets/images/title-dog1.png');
+            this.load.image('btn-play', 'assets/images/play.png');
 
             this.load.image('trench-left', 'assets/images/trench-left.png');
             this.load.image('dog-arm', 'assets/images/dog-arm.png');
@@ -43,7 +46,7 @@ module Hrj.State {
         }
 
         startGame() {
-            this.game.state.start('game', true);
+            this.game.state.start('title', true);
         }
 
         loadUpdate() {
