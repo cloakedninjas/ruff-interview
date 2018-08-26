@@ -4,20 +4,6 @@ module Hrj.State {
         music: Phaser.Sound;
 
         preload() {
-            this.load.audio('interviewer_talking_1', 'assets/audio/sfx/interviewer_talking_1.mp3');
-            this.load.audio('interviewer_talking_2', 'assets/audio/sfx/interviewer_talking_2.mp3');
-            this.load.audio('interviewer_talking_3', 'assets/audio/sfx/interviewer_talking_3.mp3');
-
-            this.load.audio('dog_talk_correct_1', 'assets/audio/sfx/dog_talk_correct_1.mp3');
-            this.load.audio('dog_talk_correct_2', 'assets/audio/sfx/dog_talk_correct_2.mp3');
-            this.load.audio('dog_talk_correct_3', 'assets/audio/sfx/dog_talk_correct_3.mp3');
-            this.load.audio('dog_talk_wrong_1', 'assets/audio/sfx/dog_talk_wrong_1.mp3');
-            this.load.audio('dog_talk_wrong_2', 'assets/audio/sfx/dog_talk_wrong_2.mp3');
-            this.load.audio('dog_talk_wrong_3', 'assets/audio/sfx/dog_talk_wrong_3.mp3');
-
-            this.load.audio('paw_stretch', 'assets/audio/sfx/paw_stretch.mp3');
-            this.load.audio('slap_paw', 'assets/audio/sfx/slap_paw.mp3');
-            this.load.audio('yoink_retreat', 'assets/audio/sfx/yoink_retreat.mp3');
         }
 
         create() {

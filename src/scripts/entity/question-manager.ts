@@ -34,6 +34,7 @@ module Hrj.Entity {
         intSounds: Phaser.Sound[];
         dogSoundsCorrect: Phaser.Sound[];
         dogSoundsWrong: Phaser.Sound[];
+        bubbleSounds: Phaser.Sound[];
 
         questionAnswered: Phaser.Signal;
         speakerDone: Phaser.Signal;
@@ -135,6 +136,12 @@ module Hrj.Entity {
                 new Phaser.Sound(game, 'dog_talk_wrong_1'),
                 new Phaser.Sound(game, 'dog_talk_wrong_2'),
                 new Phaser.Sound(game, 'dog_talk_wrong_3')
+            ];
+
+            this.bubbleSounds = [
+                new Phaser.Sound(game, 'bubble_1'),
+                new Phaser.Sound(game, 'bubble_2'),
+                new Phaser.Sound(game, 'bubble_3')
             ];
 
             this.questionAnswered = new Phaser.Signal();
@@ -255,12 +262,15 @@ module Hrj.Entity {
             this.badButton.text.setText(badAnswer);
 
             this.thoughtBubble1.visible = true;
+            this.bubbleSounds[0].play();
 
             this.game.time.events.add(600, () => {
                 this.thoughtBubble2.visible = true;
+                this.bubbleSounds[1].play();
             });
 
             this.game.time.events.add(1200, () => {
+                this.bubbleSounds[2].play();
                 this.buttons.forEach((button) => {
                     button.visible = true;
                     button.alpha = 1;

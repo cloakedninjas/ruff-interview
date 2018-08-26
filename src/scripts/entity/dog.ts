@@ -66,7 +66,8 @@ module Hrj.Entity {
             this.sfx = {
                 pawStretch: this.game.add.audio('paw_stretch'),
                 slapPaw: this.game.add.audio('slap_paw'),
-                takeBiscuit: this.game.add.audio('yoink_retreat')
+                takeBiscuit: this.game.add.audio('yoink_retreat'),
+                fallOver: this.game.add.audio('fall_over')
             };
 
             this.grabbedBiscuit = new Phaser.Signal();
@@ -98,6 +99,7 @@ module Hrj.Entity {
         }
 
         retractHand() {
+            this.sfx.pawStretch.stop();
             this.sfx.slapPaw.play();
             this.handTween.stop(false);
             this.game.time.events.remove(this.grabTimer);
@@ -167,6 +169,7 @@ module Hrj.Entity {
 
             this.fallBodyTween.onComplete.add(() => {
                 this.footRight.inputEnabled = false;
+                this.sfx.fallOver.play();
                 this.fallOver.dispatch();
             });
 
