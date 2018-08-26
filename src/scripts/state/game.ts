@@ -11,6 +11,8 @@ module Hrj.State {
 
         result: Phaser.Sprite;
 
+        music: Phaser.Sound;
+
         create() {
             this.add.sprite(0, 0, 'bg');
 
@@ -49,6 +51,8 @@ module Hrj.State {
             this.result = new Phaser.Sprite(this.game, 280, 100, 'result', 'paper-0');
             this.table.addChild(this.result);
 
+            this.music = this.add.audio('game-music', 1, true);
+
             this.playIntro();
             this.beginInterview();
 
@@ -56,6 +60,8 @@ module Hrj.State {
         }
 
         playIntro() {
+            this.music.play();
+
             const tableTween = this.game.tweens.create(this.table).to({
                 x: 0
             }, 1000, Phaser.Easing.Exponential.InOut, true, 1000);

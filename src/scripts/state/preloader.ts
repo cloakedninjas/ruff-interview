@@ -28,6 +28,8 @@ module Hrj.State {
             this.load.atlasJSONHash('result', 'assets/spritesheets/result.png', 'assets/spritesheets/result.json');
 
             this.load.json('questions', 'assets/questions.json');
+
+            this.load.audio('game-music', 'assets/audio/game.mp3');
         }
 
         create() {

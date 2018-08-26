@@ -20,7 +20,6 @@ module Hrj.Entity {
             this.anchor.set(0.5, 1);
 
             this.hand = new Phaser.Sprite(game, -50, -510, 'dog-arm');
-            this.hand.inputEnabled = true;
             this.hand.events.onInputDown.add(this.retractHand, this);
             this.addChild(this.hand);
 
@@ -56,6 +55,7 @@ module Hrj.Entity {
         }
 
         reachOut() {
+            this.hand.inputEnabled = true;
             this.handTween = this.game.tweens.create(this.hand.position).to({
                 x: -190
             }, 2000, Phaser.Easing.Linear.None, true);
