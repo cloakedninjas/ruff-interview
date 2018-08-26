@@ -1,0 +1,44 @@
+{"frames": [
+
+{
+	"filename": "dog-face-1.png",
+	"frame": {"x":0,"y":0,"w":284,"h":253},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":284,"h":253},
+	"sourceSize": {"w":284,"h":253}
+},
+{
+	"filename": "dog-face-2.png",
+	"frame": {"x":284,"y":0,"w":284,"h":253},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":284,"h":253},
+	"sourceSize": {"w":284,"h":253}
+},
+{
+	"filename": "dog-face-blink1.png",
+	"frame": {"x":568,"y":0,"w":284,"h":253},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":284,"h":253},
+	"sourceSize": {"w":284,"h":253}
+},
+{
+	"filename": "dog-face-blink2.png",
+	"frame": {"x":852,"y":0,"w":284,"h":253},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":284,"h":253},
+	"sourceSize": {"w":284,"h":253}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dog.png",
+	"format": "RGBA8888",
+	"size": {"w":1136,"h":253},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bc8c1da76a7f1e776a838fdf9c49d416:ca87220fa49eb57f31d899ca227a1d6f:ec6c3e0b9eb3cd3c555a7c426f3b0ee8$"
+}
+}

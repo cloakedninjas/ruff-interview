@@ -1,5 +1,9 @@
 module Hrj.Entity {
     export class Dog extends Phaser.Sprite {
+        private static GRAB_MIN_DELAY: number = 3000;
+        private static GRAB_MAX_DELAY: number = 4000;
+        private static GRAB_GRACE_DELAY: number = 3000;
+
         head: Phaser.Sprite;
         hand: Phaser.Sprite;
         trenchRight: Phaser.Sprite;
@@ -7,6 +11,9 @@ module Hrj.Entity {
         footRight: Phaser.Sprite;
 
         handTween: Phaser.Tween;
+        grabTimer: Phaser.TimerEvent;
+
+        grabbedBiscuit: Phaser.Signal;
 
         constructor(game) {
             super(game, 540, game.height, 'trench-left');
@@ -33,6 +40,8 @@ module Hrj.Entity {
             this.head.anchor.set(0.5, 1);
             this.addChild(this.head);
 
+            this.grabbedBiscuit = new Phaser.Signal();
+
             window['dog'] = this;
         }
 
@@ -42,26 +51,46 @@ module Hrj.Entity {
         }
 
         beginReaching() {
-            const delay = Phaser.Math.random(4000, 9000);
-
-            const timer = this.game.time.create();
-            timer.add(delay, this.reachOut, this);
-            timer.start();
+            const delay = Phaser.Math.random(Dog.GRAB_MIN_DELAY, Dog.GRAB_MAX_DELAY);
+            this.game.time.events.add(delay, this.reachOut, this);
         }
 
         reachOut() {
             this.handTween = this.game.tweens.create(this.hand.position).to({
                 x: -190
             }, 2000, Phaser.Easing.Linear.None, true);
+
+            this.handTween.onComplete.add(() => {
+                this.grabTimer = this.game.time.events.add(500, this.grabBiscuit, this);
+            });
         }
 
         retractHand() {
             this.handTween.stop(false);
+            this.game.time.events.remove(this.grabTimer);
+
             this.game.tweens.create(this.hand.position).to({
                 x: -50
             }, 500, Phaser.Easing.Quadratic.InOut, true);
 
             this.beginReaching();
+        }
+
+        grabBiscuit() {
+            this.hand.inputEnabled = false;
+            this.grabbedBiscuit.dispatch();
+            this.hand.loadTexture('dog-arm-2');
+
+            const tween = this.game.tweens.create(this.hand.position).to({
+                x: -77
+            }, 800, Phaser.Easing.Quadratic.InOut, true);
+
+            tween.onComplete.add(() => {
+                this.hand.loadTexture('dog-arm');
+                this.hand.x = -50;
+
+                this.grabTimer = this.game.time.events.add(Dog.GRAB_GRACE_DELAY, this.beginReaching, this);
+            });
         }
 
         idleWobble() {

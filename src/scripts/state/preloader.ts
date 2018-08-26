@@ -9,6 +9,7 @@ module Hrj.State {
             this.load.image('trench-left', 'assets/images/trench-left.png');
             this.load.image('dog-head', 'assets/images/dog-face.png');
             this.load.image('dog-arm', 'assets/images/dog-arm.png');
+            this.load.image('dog-arm-2', 'assets/images/dog-arm-2.png');
             this.load.image('dog-foot', 'assets/images/dog-foot.png');
             this.load.image('trench-right', 'assets/images/trench-right.png');
 
