@@ -9,6 +9,7 @@ module Hrj.State {
             this.loadingBar = new Entity.PreloadBar(this.game);
             this.load.image('bg-title', 'assets/images/bg-title.png');
             this.load.image('bg-game', 'assets/images/bg-game.png');
+            this.load.image('bg-end-fail', 'assets/images/bg-end-fail.png');
 
             this.load.image('title-dog1', 'assets/images/title-dog1.png');
             this.load.image('btn-play', 'assets/images/play.png');
@@ -30,6 +31,11 @@ module Hrj.State {
 
             this.load.image('thought-bubble-1', 'assets/images/thought-1.png');
             this.load.image('thought-bubble-2', 'assets/images/thought-2.png');
+
+            this.load.image('job-offer', 'assets/images/joboffer.png');
+            this.load.image('main-menu', 'assets/images/mainmenu.png');
+            this.load.image('end-dog-left', 'assets/images/dogleft.png');
+            this.load.image('end-dog-right', 'assets/images/dogright.png');
 
             this.load.atlasJSONHash('result', 'assets/spritesheets/result.png', 'assets/spritesheets/result.json');
             this.load.atlasJSONHash('dog', 'assets/spritesheets/dog.png', 'assets/spritesheets/dog.json');
@@ -56,6 +62,7 @@ module Hrj.State {
             this.load.audio('slap_paw', 'assets/audio/sfx/slap_paw.mp3');
             this.load.audio('yoink_retreat', 'assets/audio/sfx/yoink_retreat.mp3');
             this.load.audio('fall_over', 'assets/audio/sfx/fall_over.mp3');
+            this.load.audio('regain_balance', 'assets/audio/sfx/regain_balance.mp3');
 
             this.load.audio('bubble_1', 'assets/audio/sfx/bubble_1.mp3');
             this.load.audio('bubble_2', 'assets/audio/sfx/bubble_2.mp3');
@@ -69,7 +76,8 @@ module Hrj.State {
         }
 
         startGame() {
-            this.game.state.start('title', true);
+            //this.game.state.start('title', true);
+            this.game.state.start('end', true, false, true, '');
         }
 
         loadUpdate() {

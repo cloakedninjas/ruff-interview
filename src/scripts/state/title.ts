@@ -3,9 +3,6 @@ module Hrj.State {
 
         music: Phaser.Sound;
 
-        preload() {
-        }
-
         create() {
             this.add.sprite(0, 0, 'bg-title');
 

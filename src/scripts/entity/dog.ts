@@ -6,7 +6,7 @@ module Hrj.Entity {
 
         private static IDLE_WOBBLE_ANGLE: number = 3;
         private static FULL_WOBBLE_ANGLE: number = 60;
-        private static WOBBLE_TIP_CHANCE: number = 1; //0.3;
+        private static WOBBLE_TIP_CHANCE: number = 0.3;
 
         head: Phaser.Sprite;
         hand: Phaser.Sprite;
@@ -69,7 +69,8 @@ module Hrj.Entity {
                 pawStretch: this.game.add.audio('paw_stretch'),
                 slapPaw: this.game.add.audio('slap_paw'),
                 takeBiscuit: this.game.add.audio('yoink_retreat'),
-                fallOver: this.game.add.audio('fall_over')
+                fallOver: this.game.add.audio('fall_over'),
+                regainBalance: this.game.add.audio('regain_balance')
             };
 
             this.fallStopButton = this.game.add.sprite(380, 1100);
@@ -188,6 +189,7 @@ module Hrj.Entity {
             this.fallBodyTween.stop(false);
             this.fallFootTween.stop(false);
 
+            this.sfx.regainBalance.play();
             const tween = this.game.tweens.create(this).to({
                 angle: 0
             }, 800, Phaser.Easing.Back.Out, true);
