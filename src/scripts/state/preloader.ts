@@ -32,10 +32,14 @@ module Hrj.State {
             this.load.image('thought-bubble-1', 'assets/images/thought-1.png');
             this.load.image('thought-bubble-2', 'assets/images/thought-2.png');
 
-            this.load.image('job-offer', 'assets/images/joboffer.png');
+            this.load.image('job-offer', 'assets/images/end-success/joboffer.png');
             this.load.image('main-menu', 'assets/images/mainmenu.png');
-            this.load.image('end-dog-left', 'assets/images/dogleft.png');
-            this.load.image('end-dog-right', 'assets/images/dogright.png');
+            this.load.image('end-dog-left', 'assets/images/end-success/dogleft.png');
+            this.load.image('end-dog-right', 'assets/images/end-success/dogright.png');
+
+            this.load.image('end-dog-3', 'assets/images/end-fail/dog3.png');
+            this.load.image('end-dog-3-cookie', 'assets/images/end-fail/dog3-cookie.png');
+            this.load.image('end-table-cookie', 'assets/images/end-fail/table-cookie.png');
 
             this.load.atlasJSONHash('result', 'assets/spritesheets/result.png', 'assets/spritesheets/result.json');
             this.load.atlasJSONHash('dog', 'assets/spritesheets/dog.png', 'assets/spritesheets/dog.json');
@@ -44,6 +48,9 @@ module Hrj.State {
 
             this.load.audio('title-music', 'assets/audio/music/title.mp3');
             this.load.audio('game-music', 'assets/audio/music/game.mp3');
+            this.load.audio('game_over_fail', 'assets/audio/music/game_over_fail.mp3');
+            this.load.audio('game_over_success', 'assets/audio/music/game_over_success.mp3');
+            
             this.load.audio('selection', 'assets/audio/sfx/selection.mp3');
             this.load.audio('interviewer_talking_1', 'assets/audio/sfx/interviewer_talking_1.mp3');
             this.load.audio('interviewer_talking_2', 'assets/audio/sfx/interviewer_talking_2.mp3');
@@ -77,7 +84,7 @@ module Hrj.State {
 
         startGame() {
             //this.game.state.start('title', true);
-            this.game.state.start('end', true, false, true, '');
+            this.game.state.start('end', true, false, false, 'biscuits');
         }
 
         loadUpdate() {

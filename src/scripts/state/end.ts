@@ -4,15 +4,9 @@ module Hrj.State {
         success: boolean;
         failCond: string;
 
-        preload() {
-            this.game.load.image('endscreen-2', 'assets/images/endscreen-2.png');
-        }
-
         init(success: boolean, failCond: string) {
             this.success = success;
             this.failCond = failCond;
-
-            console.log(arguments);
         }
 
         create() {
@@ -24,8 +18,22 @@ module Hrj.State {
 
             if (this.success) {
                 this.animSuccess(btn);
+                this.game.add.audio('game_over_success').play();
             } else {
+                this.game.add.audio('game_over_fail').play();
+                if (this.failCond !== 'biscuits') {
+                    this.game.add.sprite(193, 370, 'end-table-cookie');
+                    this.game.add.sprite(50, 869, 'end-dog-3');
+                } else {
+                    this.game.add.sprite(50, 869, 'end-dog-3-cookie');
+                }
 
+                this.game.time.events.add(1500, () => {
+                    btn.x = 410;
+                    btn.y = 1140;
+                    btn.visible = true;
+                    btn.bringToTop();
+                });
             }
         }
 
